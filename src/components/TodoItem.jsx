@@ -3,52 +3,32 @@ import { useState } from "react";
 function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
   const [isUpdate, setIsUpdate] = useState(false);
   const [newText, setNewText] = useState(todo.text);
-  const onSubmitUpdate = (e) => {
-    e.preventDefault();
 
-    if (newText.trim() === "" || newText == todo.text) return;
+  function onSubmitUpdate(event) {
+    event.preventDefault();
+
+    if (newText.trim() === "" || newText == todo.text) {
+      setNewText(todo.text);
+      setIsUpdate(false);
+      return;
+    }
 
     onUpdate(todo.id, newText.trim());
     setIsUpdate(false);
-  };
+  }
+
   return (
-    <li
-      className="
-    flex justify-between items-center
-    p-4
-    border border-b-2 border-r-2
-    bg-white
-    font-semibold
-    "
-    >
+    <li className="list">
       {isUpdate ? (
-        <form
-          className="
-          grow
-        bg-red-100
-        flex justify-between
-        "
-          onSubmit={onSubmitUpdate}
-        >
+        <form className="grow flex justify-between" onSubmit={onSubmitUpdate}>
           <input
-            className="
-          w-full
-          mr-4
-          input-style
-          "
+            className="input w-full mr-4"
             type="text"
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
           />
           <input
-            className="
-        bg-green-300
-        hover:bg-green-400
-        px-4
-        py-2
-        m-3
-        cursor-pointer
-        "
+            className="button bg-green-300 hover:bg-green-400"
             type="submit"
             value="확인"
           />
@@ -68,31 +48,24 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
 
       <div>
         <button
-          className="
-        bg-amber-300
-        hover:bg-amber-400
-        px-4
-        py-2
-        m-3
-        cursor-pointer
-        "
-          onClick={() => setIsUpdate(!isUpdate)}
+          className="button bg-amber-300 hover:bg-amber-400"
+          onClick={() => {
+            setNewText(todo.text);
+            setIsUpdate(!isUpdate);
+          }}
         >
           {isUpdate ? "취소" : "수정"}
         </button>
-        <button
-          className="
-        bg-pink-300
-        hover:bg-pink-400
-        px-4
-        py-2
-        m-3
-        cursor-pointer
-        "
-          onClick={() => onDelete(todo.id)}
-        >
-          삭제
-        </button>
+        {isUpdate ? (
+          ""
+        ) : (
+          <button
+            className="button bg-pink-300 hover:bg-pink-400"
+            onClick={() => onDelete(todo.id)}
+          >
+            삭제
+          </button>
+        )}
       </div>
     </li>
   );

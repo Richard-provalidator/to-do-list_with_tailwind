@@ -3,35 +3,24 @@ import { useState } from "react";
 function InputForm({ onAddTodo }) {
   const [input, setInput] = useState("");
 
-  const handleAdd = () => {
-    if (input.trim() === "") return;
+  function handleAdd() {
+    if (input.trim() !== "") {
+      onAddTodo(input.trim());
+    }
 
-    onAddTodo(input.trim());
     setInput("");
-  };
+  }
+
   return (
-    <div
-      className="
-    flex
-    gap-2
-    mb-8
-    "
-    >
+    <div className="flex gap-2 mb-8">
       <input
-        className="input-style"
+        className="input"
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
       <button
-        className="
-      bg-purple-500
-      text-white
-      px-4
-      py-[10px]
-      rounded
-      hover:bg-purple-600
-      "
+        className="button bg-purple-400 hover:bg-purple-500"
         onClick={handleAdd}
       >
         Add

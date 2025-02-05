@@ -9,28 +9,29 @@ function App() {
     { id: Date.now(), text: "💻 코딩하기", completed: false },
   ]);
 
-  const addTodo = (text) =>
+  function addTodo(text) {
     setTodos([...todos, { id: Date.now(), text, completed: false }]);
+  }
 
-  const toggleComplete = (todoId) => {
+  function toggleComplete(todoId) {
     setTodos(
       todos.map((todo) =>
         todoId === todo.id ? { ...todo, completed: !todo.completed } : todo
       )
     );
-  };
+  }
 
-  const updateTodo = (todoId, newText) => {
+  function updateTodo(todoId, newText) {
     setTodos(
       todos.map((todo) =>
         todoId === todo.id ? { ...todo, text: newText } : todo
       )
     );
-  };
+  }
 
-  const deleteTodo = (todoId) => {
+  function deleteTodo(todoId) {
     setTodos(todos.filter((todo) => todoId !== todo.id));
-  };
+  }
 
   useEffect(() => console.log(todos), [todos]);
 
