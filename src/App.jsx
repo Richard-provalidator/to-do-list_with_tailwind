@@ -1,40 +1,10 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import InputForm from "./components/InputForm";
-import { useEffect } from "react";
 import TodoList from "./components/TodoList";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: Date.now(), text: "💻 코딩하기", completed: false },
-  ]);
-
-  function addTodo(text) {
-    setTodos([...todos, { id: Date.now(), text, completed: false }]);
-  }
-
-  function toggleComplete(todoId) {
-    setTodos(
-      todos.map((todo) =>
-        todoId === todo.id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  }
-
-  function updateTodo(todoId, newText) {
-    setTodos(
-      todos.map((todo) =>
-        todoId === todo.id ? { ...todo, text: newText } : todo
-      )
-    );
-  }
-
-  function deleteTodo(todoId) {
-    setTodos(todos.filter((todo) => todoId !== todo.id));
-  }
-
-  useEffect(() => console.log(todos), [todos]);
-
   return (
     <div
       className="
@@ -45,13 +15,8 @@ function App() {
     "
     >
       <Header />
-      <InputForm onAddTodo={addTodo} />
-      <TodoList
-        todos={todos}
-        onToggleComplete={toggleComplete}
-        onUpdate={updateTodo}
-        onDelete={deleteTodo}
-      />
+      <InputForm />
+      <TodoList />
     </div>
   );
 }
