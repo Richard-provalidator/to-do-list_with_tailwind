@@ -3,15 +3,26 @@ import Header from "./components/Header";
 import InputForm from "./components/InputForm";
 import { useEffect } from "react";
 import TodoList from "./components/TodoList";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, updateTodo } from "./store/slices/TodoSlice";
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: Date.now(), text: "💻 코딩하기", completed: false },
-  ]);
+  // const dispatch = useDispatch();
+  const { todos } = useSelector((state) => state.todo);
 
-  function addTodo(text) {
-    setTodos([...todos, { id: Date.now(), text, completed: false }]);
-  }
+  // function handleAddTodo(text) {
+  //   console.log("start");
+  //   dispatch(addTodo({ id: Date.now(), text, completed: false }));
+  //   console.log("end");
+  // }
+
+  // const [todos, setTodos] = useState([
+  //   { id: Date.now(), text: "💻 코딩하기", completed: false },
+  // ]);
+
+  // function addTodo(text) {
+  //   setTodos([...todos, { id: Date.now(), text, completed: false }]);
+  // }
 
   function toggleComplete(todoId) {
     setTodos(
@@ -21,12 +32,16 @@ function App() {
     );
   }
 
-  function updateTodo(todoId, newText) {
-    setTodos(
-      todos.map((todo) =>
-        todoId === todo.id ? { ...todo, text: newText } : todo
-      )
-    );
+  // function updateTodo(todoId, newText) {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todoId === todo.id ? { ...todo, text: newText } : todo
+  //     )
+  //   );
+  // }
+
+  function handleUpdateTodo(todoId, newText) {
+    dispatch(updateTodo({ id: todoId, text: newText }));
   }
 
   function deleteTodo(todoId) {
@@ -45,11 +60,11 @@ function App() {
     "
     >
       <Header />
-      <InputForm onAddTodo={addTodo} />
+      <InputForm />
       <TodoList
         todos={todos}
         onToggleComplete={toggleComplete}
-        onUpdate={updateTodo}
+        onUpdate={handleUpdateTodo}
         onDelete={deleteTodo}
       />
     </div>

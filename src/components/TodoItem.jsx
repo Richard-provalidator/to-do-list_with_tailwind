@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleComplete, updateTodo } from "../store/slices/TodoSlice";
 
 function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
+  const { todos } = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
+
   const [isUpdate, setIsUpdate] = useState(false);
   const [newText, setNewText] = useState(todo.text);
 
@@ -12,9 +17,17 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
       setIsUpdate(false);
       return;
     }
-
-    onUpdate(todo.id, newText.trim());
+    dispatch(updateTodo({ id: todo.id, text: newText.trim() }));
+    // onUpdate(todo.id, newText.trim());
     setIsUpdate(false);
+  }
+
+  function toggleComplete(todoId) {
+    setTodos(
+      todos.map((todo) =>
+        todoId === todo.id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   }
 
   return (
@@ -40,7 +53,8 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
       cursor-pointer
       ${todo.completed && "line-through"}
       `}
-          onClick={() => onToggleComplete(todo.id)}
+          onClick={() => dispatch(toggleComplete(todo))}
+          // onClick={() => onToggleComplete(todo.id)}
         >
           {todo.text}
         </span>

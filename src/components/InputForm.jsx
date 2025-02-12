@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../store/slices/TodoSlice";
 
-function InputForm({ onAddTodo }) {
+function InputForm() {
   const [input, setInput] = useState("");
+  const dispatch = useDispatch();
 
   function handleAdd() {
     if (input.trim() !== "") {
-      onAddTodo(input.trim());
+      dispatch(addTodo({ id: Date.now(), text: input, completed: false }));
+
+      //onAddTodo(input.trim());
+      console.log("input", input);
     }
 
     setInput("");
