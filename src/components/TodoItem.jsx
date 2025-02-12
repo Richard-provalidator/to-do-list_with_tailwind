@@ -24,10 +24,6 @@ function TodoItem({ todo }) {
     setIsUpdate(false);
   }
 
-  function handleDelete(todoId) {
-    dispatch(deleteTodo({ id: todoId }));
-  }
-
   return (
     <li className="list">
       {isUpdate ? (
@@ -72,7 +68,7 @@ function TodoItem({ todo }) {
         ) : (
           <button
             className="button bg-pink-300 hover:bg-pink-400"
-            onClick={() => handleDelete(todo.id)}
+            onClick={() => dispatch(deleteTodo({ id: todo.id }))}
           >
             삭제
           </button>
