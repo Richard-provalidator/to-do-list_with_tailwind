@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleComplete, updateTodo } from "../store/slices/TodoSlice";
+import { useDispatch } from "react-redux";
+import {
+  deleteTodo,
+  toggleComplete,
+  updateTodo,
+} from "../store/slices/TodoSlice";
 
-function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
-  const { todos } = useSelector((state) => state.todo);
+function TodoItem({ todo }) {
   const dispatch = useDispatch();
 
   const [isUpdate, setIsUpdate] = useState(false);
@@ -18,16 +21,11 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
       return;
     }
     dispatch(updateTodo({ id: todo.id, text: newText.trim() }));
-    // onUpdate(todo.id, newText.trim());
     setIsUpdate(false);
   }
 
-  function toggleComplete(todoId) {
-    setTodos(
-      todos.map((todo) =>
-        todoId === todo.id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  function handleDelete(todoId) {
+    dispatch(deleteTodo({ id: todoId }));
   }
 
   return (
@@ -54,7 +52,6 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
       ${todo.completed && "line-through"}
       `}
           onClick={() => dispatch(toggleComplete(todo))}
-          // onClick={() => onToggleComplete(todo.id)}
         >
           {todo.text}
         </span>
@@ -75,7 +72,7 @@ function TodoItem({ todo, onToggleComplete, onUpdate, onDelete }) {
         ) : (
           <button
             className="button bg-pink-300 hover:bg-pink-400"
-            onClick={() => onDelete(todo.id)}
+            onClick={() => handleDelete(todo.id)}
           >
             삭제
           </button>

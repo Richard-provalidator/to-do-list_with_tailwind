@@ -19,24 +19,23 @@ const todoSlice = createSlice({
     },
     updateTodo: (state, action) => {
       const exist = findTodo(state, action);
-      //   const exist = state.todos.find((todo) => todo.id === action.payload.id);
 
       if (exist) {
         exist.text = action.payload.text;
       }
     },
-    deleteTodo: (state) => {
-      const todoIdx = state.todos.findIndex(
+    deleteTodo: (state, action) => {
+      const todoIndex = state.todos.findIndex(
         (todo) => todo.id === action.payload.id
       );
-      if (todoIdx !== -1) {
-        state.todos.splice(todoIdx, 1);
+      if (todoIndex !== -1) {
+        state.todos.splice(todoIndex, 1);
       }
     },
     toggleComplete: (state, action) => {
       const exist = findTodo(state, action);
       if (exist) {
-        state.completed = !exist.completed;
+        exist.completed = !exist.completed;
       }
     },
   },
